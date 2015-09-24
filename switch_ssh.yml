@@ -1,0 +1,20 @@
+---
+
+- name: determine ssh port
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: test default ssh port
+      local_action: wait_for port=22 timeout=5 host={{inventory_hostname}}
+      register: default_ssh
+      ignore_errors: True
+    - name: set ansible_ssh_port to default
+      set_fact: ansible_ssh_port = 22
+      when: default_ssh.elapsed < 5
+    - name: test ssh on high port
+      local_action: wait_for port=5422 timeout=5 host={{inventory_hostname}}
+      register: high_ssh
+      ignore_errors: True
+    - name: set ansible_ssh_port high
+      set_fact: ansible_ssh_port=5422
+      when: high_ssh.elapsed < 5

@@ -1,0 +1,8 @@
+# vi: set ft=yaml:
+- src: git+git@bitbucket.org:nii_kenichi/ntp.git
+- src: git+git@bitbucket.org:nii_kenichi/ansible-sshd.git
+- src: git+git@bitbucket.org:nii_kenichi/ansible-bootstrap.git
+
+- src: Stouts.iptables
+- src: zzet.rbenv
+- src: ANXS.nginx

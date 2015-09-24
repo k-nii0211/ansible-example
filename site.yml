@@ -1,0 +1,46 @@
+---
+
+#- hosts: all
+#  gather_facts: false
+#  sudo: yes
+#  roles:
+#    - ansible-ssh-refresh
+#
+#- hosts: all
+#  gather_facts: false
+#  sudo: yes
+#  roles:
+#    - ansible-sshd
+#
+#- hosts: all
+#  gather_facts: false
+#  sudo: yes
+#  roles:
+#    - ansible-ssh-refresh
+- hosts: all
+  sudo: yes
+  remote_user: vagrant
+  roles:
+    - ansible-bootstrap
+    - zzet.rbenv
+      #    - Stouts.iptables
+      #    - ntp
+  vars_files:
+    - vars/user.yml
+  vars:
+    softwares:
+      - git
+      - vim
+    iptables_raw_rules:
+      - "-A INPUT -p tcp -m tcp --dport 22 -j ACCEPT"
+      - "-A INPUT -p tcp -m tcp --dport 19868 -j ACCEPT"
+    rbenv:
+      env: system
+      version: v0.4.0
+      ruby_version: 2.2.2
+
+  tasks:
+    - name: 'Install gems'
+      gem: name={{ item }} executable=/usr/local/rbenv/shims/gem
+      with_items:
+        - bundler

@@ -1,0 +1,20 @@
+---
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  tasks:
+    - name: check
+      shell: echo $TEST_DAYO executable=/bin/bash
+      register: test_dayo
+    - debug: msg="{{ test_dayo.stdout }}"
+
+    - name: reload
+      command: su vagrant -l -s /bin/bash -c "source /etc/profile"
+      #command: su {{ user }} -l -s /bin/bash -c "source /etc/profile"
+
+    - name: check
+      sudo: yes
+      shell: echo $TEST_DAYO
+      register: test_dayo
+    - debug: msg="{{ test_dayo.stdout }}"
