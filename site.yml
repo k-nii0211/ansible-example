@@ -23,9 +23,11 @@
   roles:
     - ansible-bootstrap
     - zzet.rbenv
+    - geerlingguy.mysql
       #    - Stouts.iptables
       #    - ntp
   vars_files:
+    - vars/main.yml
     - vars/user.yml
   vars:
     softwares:
@@ -37,10 +39,14 @@
     rbenv:
       env: system
       version: v0.4.0
-      ruby_version: 2.2.2
+      ruby_version: 2.2.3
 
   tasks:
     - name: 'Install gems'
       gem: name={{ item }} executable=/usr/local/rbenv/shims/gem
       with_items:
         - bundler
+    - name: 'Install mysql-devel packages'
+      apt: name={{ item }} state=installed
+      with_items:
+        - libmysqld-dev

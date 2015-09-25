@@ -6,3 +6,4 @@
 - src: Stouts.iptables
 - src: zzet.rbenv
 - src: ANXS.nginx
+- src: geerlingguy.mysql
